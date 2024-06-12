@@ -5,7 +5,7 @@ from src.models.user import User
 class Message(Base):
     __tablename__ = "messages"
     id = Column(Integer, primary_key=True, index=True)
-    author_id = Column(Integer, ForeignKey(User.id), nullable=False)
-    recipient_id = Column(Integer, ForeignKey(User.id), nullable=False)
+    author_username = Column(String, ForeignKey(User.username), nullable=False)
+    recipient_username = Column(String, ForeignKey(User.username), nullable=False)
     text = Column(Text, nullable=False)
     date = Column(TIMESTAMP, nullable=False)

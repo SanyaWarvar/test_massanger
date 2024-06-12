@@ -24,10 +24,13 @@ async def register(user: UserScheme, session=Depends(get_async_session)):
             )
         )
     except ValueError:
-        raise HTTPException(400, {"detail": "Username is exists!"})
+        raise HTTPException(400, "Username is exists!")
 
-    response = sign_jwt(user.username)
-    response["status_code"] = 201
+    token = sign_jwt(user.username)
+    response = {
+        "status_code": 201,
+        "access_token": token
+    }
     return response
 
 
@@ -35,10 +38,13 @@ async def register(user: UserScheme, session=Depends(get_async_session)):
 async def login(user: UserScheme, session=Depends(get_async_session)):
 
     res = await DBManager.get_user_by_username(session, user.username)
-    if not res:
-        raise HTTPException(400, {"detail": "Incorrect data!"})
+    print(res.hashed_password , pwd_contex.hash(user.password))
+    if not res :
+        raise HTTPException(400, "Incorrect data!")
 
-    response = sign_jwt(user.username)
-    response["status_code"] = 201
+    token = sign_jwt(user.username)
+    response = {
+        "status_code": 201,
+        "access_token": token
+    }
     return response
-

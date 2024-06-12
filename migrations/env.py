@@ -2,7 +2,7 @@ from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
-from src.config import DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER
+from src.messanger.config import DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER
 from alembic import context
 from src.models.user import User
 from src.models.message import Message
