@@ -24,6 +24,7 @@ class ConnectManager:
             pass
 
     async def send_personal_message(self, message: str, username: str, author: str):
+        print(self.active_connection)
         json_message = json.dumps({
             "message": message,
             "author": author,
