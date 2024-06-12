@@ -17,9 +17,11 @@ router = APIRouter(
 
 @router.websocket("/")
 async def websocket_endpoint(websocket: WebSocket, access_token: str, session=Depends(get_async_session)):
+    print("Try")
     data = decode_jwt(access_token)
     if not data:
         return WebSocketException(401, "Invalid token!")
+    print(data)
     await manager.connect(websocket, data["username"])
     await manager.send_personal_message("welcome", data["username"], data["username"])
     try:
