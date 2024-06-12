@@ -29,6 +29,7 @@ async def websocket_endpoint(websocket: WebSocket, access_token: str, session=De
 
             data = await websocket.receive_json()
             data = json.loads(data)
+            print(data)
             await DBManager.create_message(
                 session,
                 Message(
