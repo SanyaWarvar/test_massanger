@@ -15,16 +15,17 @@ router = APIRouter(
 
 @router.post("/register")
 async def register(user: UserScheme, session=Depends(get_async_session)):
-    try:
-        await DBManager.create_user(
+    res = await DBManager.get_user_by_username(session, user.username)
+     if res:
+        raise HTTPException(400, "User has exist!")
+    await DBManager.create_user(
             session,
             User(
                 username=user.username,
                 hashed_password=pwd_contex.hash(user.password)
             )
         )
-    except:
-        raise HTTPException(400, "Username is exists!")
+    
 
     token = sign_jwt(user.username)
     response = {
