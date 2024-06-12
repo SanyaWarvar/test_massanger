@@ -23,7 +23,7 @@ async def register(user: UserScheme, session=Depends(get_async_session)):
                 hashed_password=pwd_contex.hash(user.password)
             )
         )
-    except ValueError:
+    except:
         raise HTTPException(400, "Username is exists!")
 
     token = sign_jwt(user.username)
