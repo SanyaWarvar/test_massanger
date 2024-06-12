@@ -29,7 +29,8 @@ async def websocket_endpoint(websocket: WebSocket, access_token: str, session=De
 
             data = await websocket.receive_json()
             data = json.loads(data)
-            print(data)
+            if not ("message" in data and "recipient" in data and "author" in data):
+                continue
             await DBManager.create_message(
                 session,
                 Message(
@@ -39,8 +40,6 @@ async def websocket_endpoint(websocket: WebSocket, access_token: str, session=De
                     date=datetime.now()
                 )
             )
-            if not ("message" in data and "recipient" in data and "author" in data):
-                continue
             await manager.send_personal_message(data["message"], data["recipient"], data["author"])
     except WebSocketDisconnect:
         manager.disconnect(websocket)
